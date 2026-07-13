@@ -32,9 +32,17 @@
   <h1>Randomization Apps</h1>
   <p>Interactive shinylive apps accompanying the randomization tutorial.</p>
   <ul>
-    <li><a href="complete_rand/" target="_blank" rel="noopener noreferrer">Complete randomization</a></li>
-    <li><a href="compare_rand/" target="_blank" rel="noopener noreferrer">Comparing randomization procedures</a></li>
-    <li><a href="Randomization_Design_Lab/" target="_blank" rel="noopener noreferrer">Randomization Design Lab</a></li>
+    <li><a href="complete_rand/" target="_blank" rel="noopener noreferrer" data-open-tab>Complete randomization</a></li>
+    <li><a href="compare_rand/" target="_blank" rel="noopener noreferrer" data-open-tab>Comparing randomization procedures</a></li>
+    <li><a href="Randomization_Design_Lab/" target="_blank" rel="noopener noreferrer" data-open-tab>Randomization Design Lab</a></li>
   </ul>
+  <script>
+    document.querySelectorAll("[data-open-tab]").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.open(link.href, "_blank", "noopener,noreferrer");
+      });
+    });
+  </script>
 </body>
 </html>
