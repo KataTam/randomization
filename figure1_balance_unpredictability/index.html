@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Figure 1 Source Code: Balance vs. Unpredictability</title>
+  <style>
+    body {
+      color: #1f2933;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      margin: 0;
+      background: #f7f8fa;
+    }
+    main {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 40px 24px 56px;
+      background: #ffffff;
+      min-height: 100vh;
+    }
+    h1, h2 {
+      line-height: 1.2;
+      color: #111827;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.4rem;
+    }
+    h2 {
+      font-size: 1.25rem;
+      margin-top: 2rem;
+    }
+    a {
+      color: #145ea8;
+    }
+    code {
+      background: #edf2f7;
+      border-radius: 4px;
+      padding: 0.08rem 0.25rem;
+    }
+    img {
+      border: 1px solid #d5dce3;
+      display: block;
+      height: auto;
+      margin: 1rem 0;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Figure 1 Source Code</h1>
+  <p>
+    This page documents the simulation code used to create Figure 1 in
+    <em>Choosing and Evaluating Randomization Procedures in Clinical Trials:
+    A Tutorial</em>. The figure compares treatment allocation imbalance and
+    unpredictability for complete and restricted randomization procedures in a
+    single-center trial with <code>n = 50</code>.
+  </p>
+
+  <p>
+    <a href="figure1_balance_unpredictability_mcse.R">Download the R source code</a>,
+    <a href="figure1_balance_unpredictability_mcse.csv">download the plotted summary table</a>,
+    or view the regenerated figure below.
+  </p>
+
+  <img src="balance_unpred_gradient_check.png" alt="Balance versus unpredictability plot with Monte Carlo error bars">
+
+  <h2>How the Figure Is Constructed</h2>
+  <p>
+    For each randomization procedure, the script simulates <code>M = 1000</code>
+    independent allocation sequences. Each sequence is summarized once for the
+    proportion of allocations where the absolute running treatment-count
+    imbalance is at least 2, and once for unpredictability, defined as
+    <code>1 - correct guess probability</code> under the Blackwell-Hodges
+    convergence guessing strategy.
+  </p>
+
+  <p>
+    The plotted coordinates are means of these replicate-level summaries. Monte
+    Carlo standard errors are estimated across the independent sequences as
+    <code>sd(Z) / sqrt(M)</code>. The horizontal bars show uncertainty in the
+    imbalance coordinate; the vertical bars show uncertainty in the
+    unpredictability coordinate. Allocation prefixes from the same sequence are
+    not treated as independent observations.
+  </p>
+
+  <h2>Interpretation</h2>
+  <p>
+    The Monte Carlo intervals quantify simulation error under this specific
+    sample size and set of procedure parameters. They do not represent
+    sensitivity to block size, biased-coin probability, maximum tolerated
+    imbalance, sample size, or alternative guessing strategies.
+  </p>
+</main>
+</body>
+</html>
