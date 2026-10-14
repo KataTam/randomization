@@ -86,12 +86,38 @@
     not treated as independent observations.
   </p>
 
+  <p>
+    Bars are approximate 95% Monte Carlo intervals: the mean plus or minus
+    <code>1.96 * MCSE</code>. Means and interval endpoints are plotted directly,
+    including endpoints above 0.5. The deterministic comparator uses strict
+    <code>ABAB...</code> alternation and has zero Monte Carlo uncertainty.
+  </p>
+
+  <h2>Procedure Settings</h2>
+  <ul>
+    <li>CR: equal independent assignment probabilities.</li>
+    <li>RAR and TBD: equal final target counts for 50 participants.</li>
+    <li>PBR: blocks of size 4, with the final block truncated at participant 50.</li>
+    <li>RPBR: random block sizes from 4, 6, and 8.</li>
+    <li>EBC: probability 2/3 favoring the underrepresented treatment.</li>
+    <li>UD: 10 initial balls per treatment, adding 2 opposite-treatment balls.</li>
+    <li>MP and BSD: maximum tolerated imbalance of 2.</li>
+    <li>MBR: merging two streams of balanced blocks of size 2.</li>
+  </ul>
+
   <h2>Interpretation</h2>
   <p>
     The Monte Carlo intervals quantify simulation error under this specific
     sample size and set of procedure parameters. They do not represent
     sensitivity to block size, biased-coin probability, maximum tolerated
     imbalance, sample size, or alternative guessing strategies.
+  </p>
+  <p>
+    The convergence strategy guesses the underrepresented treatment and
+    guesses at random when the counts are equal. Consequently, strict
+    alternation has an unpredictability score of 0.25 under this strategy,
+    even though an observer who knows the alternating rule can predict every
+    assignment. This score is conditional on the guessing strategy.
   </p>
 </main>
 </body>

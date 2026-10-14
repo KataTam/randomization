@@ -75,9 +75,7 @@ assess_sequence <- function(sequence) {
 
 generate_sequence <- function(procedure, n = n_patients) {
   if (procedure == "Deterministic allocation") {
-    return(as.vector(getRandList(genSeq(
-      pbrPar(bc = rep(2, ceiling(n / 2)), K = 2, ratio = rep(1, 2))
-    )))[1:n])
+    return(rep(c("A", "B"), length.out = n))
   }
   if (procedure == "Complete randomization") {
     return(as.vector(getRandList(genSeq(crPar(N = n, K = 2)))))
@@ -140,7 +138,7 @@ simulation_results <- lapply(procedures, function(procedure) {
   data.frame(
     procedure = procedure,
     imbalance = mean(replicate_results[, "imbalance"]),
-    unpredictability = min(mean(replicate_results[, "unpredictability"]), 0.5),
+    unpredictability = mean(replicate_results[, "unpredictability"]),
     imbalance_mcse = sd(replicate_results[, "imbalance"]) / sqrt(n_sim),
     unpredictability_mcse = sd(replicate_results[, "unpredictability"]) / sqrt(n_sim)
   )
@@ -148,10 +146,10 @@ simulation_results <- lapply(procedures, function(procedure) {
 
 simulation_results <- do.call(rbind, simulation_results)
 simulation_results$label <- c("DA", "CR", "RAR", "TBD", "PBR", "RPBR", "MP", "EBC", "UD", "BSD", "MBR")
-simulation_results$imbalance_lower <- pmax(0, simulation_results$imbalance - 1.96 * simulation_results$imbalance_mcse)
-simulation_results$imbalance_upper <- pmin(1, simulation_results$imbalance + 1.96 * simulation_results$imbalance_mcse)
-simulation_results$unpredictability_lower <- pmax(0, simulation_results$unpredictability - 1.96 * simulation_results$unpredictability_mcse)
-simulation_results$unpredictability_upper <- pmin(0.5, simulation_results$unpredictability + 1.96 * simulation_results$unpredictability_mcse)
+simulation_results$imbalance_lower <- simulation_results$imbalance - 1.96 * simulation_results$imbalance_mcse
+simulation_results$imbalance_upper <- simulation_results$imbalance + 1.96 * simulation_results$imbalance_mcse
+simulation_results$unpredictability_lower <- simulation_results$unpredictability - 1.96 * simulation_results$unpredictability_mcse
+simulation_results$unpredictability_upper <- simulation_results$unpredictability + 1.96 * simulation_results$unpredictability_mcse
 
 write.csv(simulation_results, "figure1_balance_unpredictability_mcse.csv", row.names = FALSE)
 
@@ -175,27 +173,14 @@ blend_color <- function(x, y, xlim, ylim, lower_left, lower_right, upper_left, u
 }
 
 x_limits <- c(-0.02, 0.8)
-y_limits <- c(0.245, 0.5)
+y_limits <- c(0.24, max(0.515, simulation_results$unpredictability_upper + 0.008))
 x_ticks <- seq(0, 0.8, by = 0.1)
 y_ticks <- seq(0.25, 0.5, by = 0.05)
-
-simulation_results$plot_unpredictability <- pmin(
-  simulation_results$unpredictability,
-  max(y_ticks) - 0.003
-)
-simulation_results$plot_unpredictability_lower <- pmin(
-  simulation_results$unpredictability_lower,
-  max(y_ticks) - 0.003
-)
-simulation_results$plot_unpredictability_upper <- pmin(
-  simulation_results$unpredictability_upper,
-  max(y_ticks) - 0.003
-)
 
 point_colors <- mapply(
   blend_color,
   simulation_results$imbalance,
-  simulation_results$plot_unpredictability,
+  simulation_results$unpredictability,
   MoreArgs = list(
     xlim = x_limits,
     ylim = y_limits,
@@ -206,7 +191,7 @@ point_colors <- mapply(
   )
 )
 
-label_y <- simulation_results$plot_unpredictability
+label_y <- simulation_results$unpredictability
 label_y[simulation_results$label == "CR"] <- label_y[simulation_results$label == "CR"] - 0.008
 label_y[simulation_results$label == "MP"] <- label_y[simulation_results$label == "MP"] + 0.006
 legend_order <- match(
@@ -235,13 +220,13 @@ axis(2, at = y_ticks, las = 1)
 axis(4, at = y_ticks, labels = FALSE)
 
 has_horizontal_mcse <- simulation_results$imbalance_upper > simulation_results$imbalance_lower
-has_vertical_mcse <- simulation_results$plot_unpredictability_upper > simulation_results$plot_unpredictability_lower
+has_vertical_mcse <- simulation_results$unpredictability_upper > simulation_results$unpredictability_lower
 
 arrows(
   simulation_results$imbalance_lower[has_horizontal_mcse],
-  simulation_results$plot_unpredictability[has_horizontal_mcse],
+  simulation_results$unpredictability[has_horizontal_mcse],
   simulation_results$imbalance_upper[has_horizontal_mcse],
-  simulation_results$plot_unpredictability[has_horizontal_mcse],
+  simulation_results$unpredictability[has_horizontal_mcse],
   col = "gray25",
   lwd = 1,
   code = 3,
@@ -250,9 +235,9 @@ arrows(
 )
 arrows(
   simulation_results$imbalance[has_vertical_mcse],
-  simulation_results$plot_unpredictability_lower[has_vertical_mcse],
+  simulation_results$unpredictability_lower[has_vertical_mcse],
   simulation_results$imbalance[has_vertical_mcse],
-  simulation_results$plot_unpredictability_upper[has_vertical_mcse],
+  simulation_results$unpredictability_upper[has_vertical_mcse],
   col = "gray25",
   lwd = 1,
   code = 3,
@@ -262,7 +247,7 @@ arrows(
 
 points(
   simulation_results$imbalance,
-  simulation_results$plot_unpredictability,
+  simulation_results$unpredictability,
   pch = 21,
   bg = point_colors,
   col = "gray15",

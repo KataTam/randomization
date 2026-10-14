@@ -17,3 +17,12 @@ Files:
 The simulation uses `M = 1000` independently simulated allocation sequences
 with `n = 50` participants per sequence. Monte Carlo standard errors are
 estimated across sequence-level summaries as `sd(Z) / sqrt(M)`.
+
+The deterministic comparator is strict AB alternation. Approximate 95%
+Monte Carlo intervals are mean +/- 1.96 MCSE. The plot retains the actual
+means and interval endpoints, including endpoints above 0.5.
+
+Run the script from this folder with `Rscript figure1_balance_unpredictability_mcse.R`.
+It requires `randomizeR`; the current outputs were checked with version 3.0.2
+under R 4.5.1. Parameter settings and guessing-strategy interpretation are
+documented in `index.html` and the script.
