@@ -1,8 +1,9 @@
-# Figure 1: Balance vs. Unpredictability
+# Information about Figure 1
 
-This folder contains the source code and generated outputs for Figure 1 in
-*Choosing and Evaluating Randomization Procedures in Clinical Trials: A
-Tutorial*.
+This folder contains explanations, source code, and generated outputs for
+Figure 1 in *Choosing and Evaluating Randomization Procedures: A Tutorial*.
+The [Figure 1 information page](https://katatam.github.io/randomization/figure1_balance_unpredictability/)
+explains each of the 11 plotted procedures and its simulation settings.
 
 Files:
 

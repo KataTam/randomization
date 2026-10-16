@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Figure 1 Source Code: Balance vs. Unpredictability</title>
+  <title>Information about Figure 1</title>
   <style>
     body {
       color: #1f2933;
@@ -34,6 +34,8 @@
     a {
       color: #145ea8;
     }
+    dt { font-weight: 600; margin-top: 1rem; }
+    dd { margin: 0.25rem 0 0; }
     code {
       background: #edf2f7;
       border-radius: 4px;
@@ -50,11 +52,11 @@
 </head>
 <body>
 <main>
-  <h1>Figure 1 Source Code</h1>
+  <h1>Information about Figure 1</h1>
   <p>
-    This page documents the simulation code used to create Figure 1 in
-    <em>Choosing and Evaluating Randomization Procedures in Clinical Trials:
-    A Tutorial</em>. The figure compares treatment allocation imbalance and
+    This page explains the procedures, simulation, and source code for Figure 1 in
+    <em>Choosing and Evaluating Randomization Procedures: A Tutorial</em>.
+    The figure compares treatment allocation imbalance and
     unpredictability for complete and restricted randomization procedures in a
     single-center trial with <code>n = 50</code>.
   </p>
@@ -93,17 +95,72 @@
     <code>ABAB...</code> alternation and has zero Monte Carlo uncertainty.
   </p>
 
-  <h2>Procedure Settings</h2>
-  <ul>
-    <li>CR: equal independent assignment probabilities.</li>
-    <li>RAR and TBD: equal final target counts for 50 participants.</li>
-    <li>PBR: blocks of size 4, with the final block truncated at participant 50.</li>
-    <li>RPBR: random block sizes from 4, 6, and 8.</li>
-    <li>EBC: probability 2/3 favoring the underrepresented treatment.</li>
-    <li>UD: 10 initial balls per treatment, adding 2 opposite-treatment balls.</li>
-    <li>MP and BSD: maximum tolerated imbalance of 2.</li>
-    <li>MBR: merging two streams of balanced blocks of size 2.</li>
-  </ul>
+  <h2>Procedures in the Figure</h2>
+  <p>
+    A and B denote the two treatments. All procedures target equal allocation,
+    but they differ in how strongly they constrain the sequence. The settings
+    below are those used for the plotted points; exact final balance is not
+    guaranteed by every procedure.
+  </p>
+  <dl>
+    <dt>DA: Deterministic allocation</dt>
+    <dd>Assign treatments in strict ABAB order. Counts differ by at most one,
+      but every assignment is predictable to someone who knows the rule.
+      This is a nonrandomized comparator.</dd>
+    <dt>CR: Complete randomization</dt>
+    <dd>Assign each participant independently to A or B with probability 1/2.
+      Previous assignments do not affect the next assignment, so treatment
+      counts can drift apart.</dd>
+    <dt>RAR: Random allocation rule</dt>
+    <dd>Randomly order a list containing 25 A and 25 B assignments, giving
+      every such ordering equal probability. Final balance is guaranteed,
+      but substantial imbalance can occur during recruitment. RAR here does
+      not mean response-adaptive randomization.</dd>
+    <dt>TBD: Truncated binomial design</dt>
+    <dd>Use independent equal-probability assignments until one treatment
+      reaches its quota of 25. Assign all remaining participants to the other
+      treatment. This guarantees final balance but makes the last assignments
+      deterministic once a quota is reached.</dd>
+    <dt>PBR: Permuted block randomization</dt>
+    <dd>Randomly order two A and two B assignments within each block of four.
+      Counts are equal after every complete block. The simulated sequence
+      stops at participant 50, partway through its last block, so final
+      balance is not guaranteed here.</dd>
+    <dt>RPBR: Random block-size permuted block randomization</dt>
+    <dd>Randomly select block sizes from 4, 6, and 8 and randomly order equal
+      numbers of A and B within each block. Varying block sizes makes block
+      boundaries less obvious, but does not eliminate predictability.
+      Recruitment stops at 50, potentially leaving an incomplete block.</dd>
+    <dt>MP: Maximal procedure</dt>
+    <dd>Give equal probability to all length-50 sequences that end with
+      25 assignments per treatment and never let the absolute running count
+      difference exceed two. Unlike permuted blocks, this does not require
+      balance at regularly spaced block boundaries.</dd>
+    <dt>EBC: Efron's biased coin design</dt>
+    <dd>Use probability 1/2 for each treatment when counts are equal.
+      Otherwise, assign the underrepresented treatment with probability 2/3.
+      This encourages balance without imposing a strict imbalance limit.</dd>
+    <dt>UD: Wei's urn design</dt>
+    <dd>Start with 10 balls for each treatment. Draw a ball to select the
+      treatment, replace it, and add two balls for the opposite treatment.
+      The changing urn composition favors the underrepresented treatment,
+      with the strength of that preference depending on the allocation history.</dd>
+    <dt>BSD: Big stick design</dt>
+    <dd>Use equal assignment probabilities while the absolute count difference
+      is below two. At the boundary of two, force the next assignment toward
+      balance. Final balance is not required.</dd>
+    <dt>MBR: Merged block randomization</dt>
+    <dd>Generate two independent streams of balanced blocks of size two
+      (AB or BA). At each step, randomly choose either stream with probability
+      1/2 and take its next unused assignment. Merging hides the original block
+      boundaries while keeping the absolute running imbalance at most two.</dd>
+  </dl>
+  <p>
+    The package-based procedures use <a href="https://cran.r-project.org/package=randomizeR">randomizeR</a>;
+    MBR uses the <code>BlockMergeGen</code> function in the downloadable script.
+    Background is available in
+    <a href="https://doi.org/10.1186/s12874-021-01303-z">Berger et al. (2021)</a>.
+  </p>
 
   <h2>Interpretation</h2>
   <p>

@@ -15,10 +15,10 @@ Published app URLs:
 - <https://katatam.github.io/randomization/compare_rand/>
 - <https://katatam.github.io/randomization/Randomization_Design_Lab/>
 
-## Figure 1 Source Code
+## Information about Figure 1
 
-The source code and explanation for the balance-versus-unpredictability plot in
-Figure 1 are in `figure1_balance_unpredictability/`.
+Short explanations of all 11 plotted procedures, their settings, the simulation
+methods, and source code for Figure 1 are in `figure1_balance_unpredictability/`.
 
 Published page:
 
