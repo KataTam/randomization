@@ -19,6 +19,9 @@ Published app URLs:
 
 Short explanations of all 11 plotted procedures, their settings, the simulation
 methods, and source code for Figure 1 are in `figure1_balance_unpredictability/`.
+The figure assesses temporal balance through the proportion of enrollment steps
+with absolute cumulative treatment-count imbalance of at least two, alongside
+unpredictability.
 
 Published page:
 

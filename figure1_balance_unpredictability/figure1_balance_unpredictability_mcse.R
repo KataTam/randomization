@@ -207,10 +207,10 @@ plot(
   NA,
   xlim = x_limits,
   ylim = y_limits,
-  xlab = expression("Proportion of allocations with imbalance " >= 2),
+  xlab = "Proportion of enrollment steps with absolute\ncumulative treatment-count imbalance >= 2",
   ylab = "Unpredictability (1 - correct guess probability)",
   axes = FALSE,
-  main = "Balance vs. unpredictability"
+  main = "Temporal balance vs. unpredictability"
 )
 
 box()

@@ -5,6 +5,13 @@ Figure 1 in *Choosing and Evaluating Randomization Procedures: A Tutorial*.
 The [Figure 1 information page](https://katatam.github.io/randomization/figure1_balance_unpredictability/)
 explains each of the 11 plotted procedures and its simulation settings.
 
+Temporal imbalance describes unequal treatment representation across recruitment
+periods. The figure assesses temporal balance using cumulative treatment-count
+imbalance: the difference between the numbers assigned to A and B after each
+enrollment. The horizontal coordinate is the proportion of enrollment steps
+with an absolute cumulative treatment-count imbalance of at least two.
+This summary uses enrollment order; it does not explicitly model calendar time.
+
 Files:
 
 - `figure1_balance_unpredictability_mcse.R`: R script used to simulate the
