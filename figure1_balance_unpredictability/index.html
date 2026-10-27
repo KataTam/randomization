@@ -56,9 +56,12 @@
   <p>
     This page explains the procedures, simulation, and source code for Figure 1 in
     <em>Choosing and Evaluating Randomization Procedures: A Tutorial</em>.
-    The figure compares temporal balance and
-    unpredictability for complete and restricted randomization procedures in a
-    single-center trial with <code>n = 50</code>.
+    The figure, <em>The balance&ndash;unpredictability trade-off</em>, compares
+    complete and restricted randomization procedures alongside a deterministic
+    comparator in a single-center trial with <code>n = 50</code>. The display is
+    conceptually adapted from
+    <a href="https://doi.org/10.1177/1740774519827957">van der Pas (2019)</a>,
+    redrawn and extended for the tutorial.
   </p>
 
   <p>
@@ -67,7 +70,7 @@
     or view the regenerated figure below.
   </p>
 
-  <img src="balance_unpred_gradient_check.png" alt="Proportion of enrollment steps with absolute cumulative treatment-count imbalance of at least two versus unpredictability, with Monte Carlo error bars">
+  <img src="balance_unpred_gradient_check.png" alt="The balance-unpredictability trade-off: cumulative treatment count imbalance versus unpredictability, with Monte Carlo error bars">
 
   <h2>How the Figure Is Constructed</h2>
   <p>
@@ -78,14 +81,14 @@
   <p>
     Temporal imbalance describes unequal treatment representation across
     recruitment periods. Here, temporal balance is assessed using a summary of
-    cumulative treatment-count imbalance: the difference between the numbers
+    cumulative treatment count imbalance: the difference between the numbers
     assigned to A and B after each enrollment. This summary uses enrollment
     order; it does not explicitly model calendar time.
   </p>
   <p>
     For each randomization procedure, the script simulates <code>M = 1000</code>
     independent allocation sequences. Each sequence is summarized once for the
-    proportion of enrollment steps where the absolute cumulative treatment-count
+    proportion of enrollment steps where the absolute cumulative treatment count
     imbalance is at least 2, and once for unpredictability, defined as
     <code>1 - correct guess probability</code> under the Blackwell-Hodges
     convergence guessing strategy.
@@ -138,7 +141,7 @@
       Counts are equal after every complete block. The simulated sequence
       stops at participant 50, partway through its last block, so final
       balance is not guaranteed here.</dd>
-    <dt>RPBR: Random block-size permuted block randomization</dt>
+    <dt>RPBR: Random block size permuted block randomization</dt>
     <dd>Randomly select block sizes from 4, 6, and 8 and randomly order equal
       numbers of A and B within each block. Varying block sizes makes block
       boundaries less obvious, but does not eliminate predictability.
@@ -146,7 +149,7 @@
     <dt>MP: Maximal procedure</dt>
     <dd>Give equal probability to all length-50 sequences that end with
       25 assignments per treatment and never let the absolute cumulative
-      treatment-count imbalance exceed two. Unlike permuted blocks, this does not require
+      treatment count imbalance exceed two. Unlike permuted blocks, this does not require
       balance at regularly spaced block boundaries.</dd>
     <dt>EBC: Efron's biased coin design</dt>
     <dd>Use probability 1/2 for each treatment when counts are equal.
@@ -159,13 +162,13 @@
       with the strength of that preference depending on the allocation history.</dd>
     <dt>BSD: Big stick design</dt>
     <dd>Use equal assignment probabilities while the absolute cumulative
-      treatment-count imbalance is below two. At the boundary of two, force the next assignment toward
+      treatment count imbalance is below two. At the boundary of two, force the next assignment toward
       balance. Final balance is not required.</dd>
     <dt>MBR: Merged block randomization</dt>
     <dd>Generate two independent streams of balanced blocks of size two
       (AB or BA). At each step, randomly choose either stream with probability
       1/2 and take its next unused assignment. Merging hides the original block
-      boundaries while keeping the absolute cumulative treatment-count
+      boundaries while keeping the absolute cumulative treatment count
       imbalance at most two.</dd>
   </dl>
   <p>
@@ -177,9 +180,17 @@
 
   <h2>Interpretation</h2>
   <p>
+    Points closer to the upper left combine better temporal balance under the
+    specified imbalance criterion with greater unpredictability under the
+    chosen guessing strategy. The horizontal coordinate summarizes cumulative
+    treatment count imbalance during recruitment; covariate balance is not
+    assessed in this figure. The positions of procedures depend on the sample
+    size, procedure parameters, and guessing strategy.
+  </p>
+  <p>
     The Monte Carlo intervals quantify simulation error under this specific
     sample size and set of procedure parameters. They do not represent
-    sensitivity to block size, biased-coin probability, maximum tolerated
+    sensitivity to block size, biased coin probability, maximum tolerated
     imbalance, sample size, or alternative guessing strategies.
   </p>
   <p>

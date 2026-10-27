@@ -207,10 +207,10 @@ plot(
   NA,
   xlim = x_limits,
   ylim = y_limits,
-  xlab = "Proportion of enrollment steps with absolute\ncumulative treatment-count imbalance >= 2",
+  xlab = "Proportion of enrollment steps with absolute\ncumulative treatment count imbalance >= 2",
   ylab = "Unpredictability (1 - correct guess probability)",
   axes = FALSE,
-  main = "Temporal balance vs. unpredictability"
+  main = "The balance\u2013unpredictability trade-off"
 )
 
 box()
@@ -268,7 +268,8 @@ legend(
   "bottomright",
   legend = paste(
     simulation_results$label[legend_order],
-    simulation_results$procedure[legend_order],
+    gsub("block-size", "block size",
+         simulation_results$procedure[legend_order], fixed = TRUE),
     sep = " = "
   ),
   pt.bg = point_colors[legend_order],

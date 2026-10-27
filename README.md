@@ -19,9 +19,12 @@ Published app URLs:
 
 Short explanations of all 11 plotted procedures, their settings, the simulation
 methods, and source code for Figure 1 are in `figure1_balance_unpredictability/`.
-The figure assesses temporal balance through the proportion of enrollment steps
-with absolute cumulative treatment-count imbalance of at least two, alongside
-unpredictability.
+Titled *The balance–unpredictability trade-off*, the figure assesses temporal
+balance through the proportion of enrollment steps with absolute cumulative
+treatment count imbalance of at least two. Unpredictability is one minus the
+correct guess probability under the Blackwell-Hodges convergence strategy.
+The coordinates and Monte Carlo intervals are conditional on the specified
+sample size, procedure parameters, and guessing strategy.
 
 Published page:
 
